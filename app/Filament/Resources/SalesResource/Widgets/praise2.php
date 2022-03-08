@@ -9,9 +9,9 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use App\Models\sales;
 use App\Models\expenses;
 use App\Models\User;
-use Filament\Widgets\LineChartWidget;
+use Filament\Widgets\BarChartWidget;
 
-class praise2 extends LineChartWidget
+class praise2 extends BarChartWidget
 {
     protected static ?int $sort = 1;
     protected int | string | array $columnSpan = 1;
@@ -23,10 +23,10 @@ class praise2 extends LineChartWidget
 {
     $data = Trend::model(sales::class)
         ->between(
-            start: now()->startOfWeek(),
-            end: now()->endOfWeek(),
+            start: now()->startOfMonth(),
+            end: now()->endOfMonth(),
         )
-        ->perHour()
+        ->perDay()
         ->count();
 
 

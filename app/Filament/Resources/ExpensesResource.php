@@ -5,6 +5,7 @@ use App\Filament\Widgets\SAccountWidget;
 use App\Filament\Resources\ExpensesResource\Pages;
 use App\Filament\Resources\ExpensesResource\RelationManagers;
 use App\Models\Expenses;
+use App\Models\purpose;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -15,17 +16,19 @@ class ExpensesResource extends Resource
 {
     protected static ?string $model = Expenses::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-calculator';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Select::make('name')
+                    ->label('Purpose')
+                    ->options(purpose::all()->pluck('purpose','purpose'))
+                    ->searchable(),
                 Forms\Components\TextInput::make('quantity')
-                    ->required(),
+                    ->required()
+                    ->numeric(),
                 Forms\Components\TextInput::make('amount')
                     ->required(),
             ]);
@@ -36,6 +39,7 @@ class ExpensesResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+
                 Tables\Columns\TextColumn::make('quantity'),
                 Tables\Columns\TextColumn::make('amount'),
                 Tables\Columns\TextColumn::make('created_at')

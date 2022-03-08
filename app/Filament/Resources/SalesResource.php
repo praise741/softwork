@@ -4,6 +4,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SalesResource\Widgets\praise;
 
 use App\Filament\Resources\SalesResource\Pages;
+use App\Models\category;
+use App\Models\products;
 use App\Models\Sales;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -22,20 +24,23 @@ class SalesResource extends Resource
 }
     protected static ?string $model = Sales::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\Select::make('name')
+                    ->label('Purpose')
+                    ->options(products::all()->pluck('name','name'))
+                    ->searchable(),
+                    Forms\Components\TextInput::make('amount')
                     ->required()
-                    ->maxLength(255),
+                    ->numeric(),
                 Forms\Components\TextInput::make('quantity')
                     ->required()
                     ->helperText('Your full name here, including any middle names.'),
-                Forms\Components\BelongsToSelect::make('title')
-                ->relationship('title', 'name')
+
             ]);
     }
 

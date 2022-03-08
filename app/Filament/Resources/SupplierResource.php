@@ -9,12 +9,13 @@ use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\category;
 
 class SupplierResource extends Resource
 {
     protected static ?string $model = Supplier::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-cart';
 
     public static function form(Form $form): Form
     {
@@ -23,6 +24,10 @@ class SupplierResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                    Forms\Components\Select::make('authorId')
+                    ->label('Author')
+                    ->options(category::all()->pluck('category'))
+                    ->searchable(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -42,6 +47,7 @@ class SupplierResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\TextColumn::make('phonenumber'),
                 Tables\Columns\TextColumn::make('address'),

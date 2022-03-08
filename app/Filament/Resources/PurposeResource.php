@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PostsResource\Pages;
-use App\Models\Posts;
+use App\Filament\Resources\PurposeResource\Pages;
+use App\Models\Purpose;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
 
-class PostsResource extends Resource
+class PurposeResource extends Resource
 {
-    protected static ?string $model = Posts::class;
+    protected static ?string $model = Purpose::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -20,14 +20,9 @@ class PostsResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
+                Forms\Components\TextInput::make('purpose')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('main')
-                    ->required()
-                    ->maxLength(255),
-                    Forms\Components\MarkdownEditor::make('quantity')
-
             ]);
     }
 
@@ -35,9 +30,7 @@ class PostsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('main'),
-
+                Tables\Columns\TextColumn::make('purpose'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
                 Tables\Columns\TextColumn::make('updated_at')
@@ -51,7 +44,7 @@ class PostsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePosts::route('/'),
+            'index' => Pages\ManagePurposes::route('/'),
         ];
     }
 }
